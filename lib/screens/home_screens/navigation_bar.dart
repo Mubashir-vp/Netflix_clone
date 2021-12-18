@@ -3,11 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:netflix_clone/screens/fast_laugh.dart';
-import 'package:netflix_clone/screens/new_hot.dart';
-import 'package:netflix_clone/screens/search.dart';
+import 'package:netflix_clone/screens/home_screens/fast_laugh.dart';
+import 'package:netflix_clone/screens/home_screens/new_hot.dart';
+import 'package:netflix_clone/screens/home_screens/search.dart';
 
 import 'downloads.dart';
+import 'fast_laugh.dart';
 import 'home.dart';
 
 

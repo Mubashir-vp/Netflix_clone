@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:netflix_clone/screens/popularmovies.dart';
-import 'package:netflix_clone/upcoming.dart';
+import 'package:netflix_clone/model/popularmovies.dart';
+import 'package:netflix_clone/model/upcoming.dart';
 
-import '../users.dart';
-import 'httpservice.dart';
+import '../../model/users.dart';
+import '../../service/httpservice.dart';
 
 class Upcoming_deails extends StatefulWidget {
   final int indd;

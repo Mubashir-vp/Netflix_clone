@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../users.dart';
-import 'httpservice.dart';
+import '../../model/users.dart';
+import '../../service/httpservice.dart';
 
 class DetailsPage extends StatefulWidget {
   final int indd;

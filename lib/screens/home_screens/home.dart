@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:netflix_clone/screens/details.dart';
-import 'package:netflix_clone/screens/httpservice.dart';
-import 'package:netflix_clone/screens/popularmovies.dart';
-import 'package:netflix_clone/screens/upcoming_details.dart';
-import 'package:netflix_clone/upcoming.dart';
+import 'package:netflix_clone/screens/detailspages/details.dart';
+import 'package:netflix_clone/service/httpservice.dart';
+import 'package:netflix_clone/model/popularmovies.dart';
+import 'package:netflix_clone/screens/detailspages/upcoming_details.dart';
+import 'package:netflix_clone/model/upcoming.dart';
 
-import '../users.dart';
-import 'continuewatcing_details.dart';
+import '../../model/users.dart';
+import '../detailspages/continuewatcing_details.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:netflix_clone/screens/popularmovies.dart';
+import 'package:netflix_clone/model/popularmovies.dart';
 
-import '../users.dart';
-import 'httpservice.dart';
+import '../../model/users.dart';
+import '../../service/httpservice.dart';
 
 class ContinueWatching extends StatefulWidget {
   final int indd;
