@@ -1,11 +1,15 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:http/http.dart' as http;
+import 'package:netflix_clone/screens/details.dart';
 import 'package:netflix_clone/screens/httpservice.dart';
-import 'package:netflix_clone/user.dart';
-import 'package:netflix_clone/user_response.dart';
+import 'package:netflix_clone/screens/popularmovies.dart';
+import 'package:netflix_clone/screens/upcoming_details.dart';
+import 'package:netflix_clone/upcoming.dart';
+
+import '../users.dart';
+import 'continuewatcing_details.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,42 +19,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool isLoading = false;
-
-   HttpService http=HttpService();
-   List<User> users=[];
-   ListUserResponse listUserResponse=ListUserResponse();
-  Future getUser() async {
-    Response response;
-    try {
-      isLoading = true;
-
-      response = await http.getRequest(
-          "https://api.themoviedb.org/3/movie/8?api_key=3e801f599186241c08d9adfa803d6fd0&language=en-US");
-
-      isLoading = false;
-
-      if (response.statusCode == 200) {
-        setState(() {
-          listUserResponse = ListUserResponse.fromJson(response.data);
-          users = listUserResponse.users;
-        });
-      } else {
-        print("There is some problem status code not 200");
-      }
-    } on Exception catch (e) {
-      isLoading = false;
-      print(e);
-    }
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getUser();
-       HttpService http=HttpService();
-
   }
 
   @override
@@ -201,34 +173,51 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         children: const [
                           Text(
-                            "Tv shows",
+                            "Trending",
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 5,
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (ctx, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: SizedBox(
-                                  height: 100,
-                                  width: 100,
-                                  child:  Image.network(
-                                          "https://www.kerala9.com/wp-content/uploads/2021/10/minnal-murali-poster-hd-1024x1024.jpg",
-                                          fit: BoxFit.cover,
-                                        )
-                                      ),
-                            );
-                          },
-                          separatorBuilder: (ctx, index) => const SizedBox(
-                                width: 10,
-                              ),
-                          itemCount: 5),
+                      child: FutureBuilder(
+                          future: HttpService().getRequest(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Users?> snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, index) {
+                                  final data = snapshot.data!.results![index];
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(7),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>DetailsPage(indd: index,)));
+                                      },
+                                      child: SizedBox(
+                                          height: 70,
+                                          width: 100,
+                                          child: Image.network("https://www.themoviedb.org/t/p/original/${data.posterPath}",
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (ctx, index) =>
+                                    const SizedBox(
+                                  width: 10,
+                                ),
+                                itemCount: snapshot.data!.results!.length,
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 10,
@@ -245,27 +234,45 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
+                      height: MediaQuery.of(context).size.height / 5,
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (ctx, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: SizedBox(
-                                height: 150,
-                                width: 100,
-                                child: Image.network(
-                                  "https://wallpapercave.com/wp/wp10363322.jpg",
-                                  fit: BoxFit.cover,
+                      child: FutureBuilder(
+                          future: HttpService().popularMovie(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<PopularMovie?> snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, index) {
+                                  final data = snapshot.data!.results![index];
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(7),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>ContinueWatching(indd: index,)));
+                                      },
+
+                                      child: SizedBox(
+                                          height: 70,
+                                          width: 100,
+                                          child: Image.network("https://www.themoviedb.org/t/p/original/${data.posterPath}",
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (ctx, index) =>
+                                    const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (ctx, index) => const SizedBox(
-                                width: 10,
-                              ),
-                          itemCount: 5),
+                                itemCount: snapshot.data!.results!.length,
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
                     ),
                     const SizedBox(
                       height: 10,
@@ -275,35 +282,52 @@ class _HomePageState extends State<HomePage> {
                       child: Row(
                         children: const [
                           Text(
-                            "Trending Now",
+                            "UpComing",
                             style: TextStyle(color: Colors.white),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 3,
+                     SizedBox(
+                      height: MediaQuery.of(context).size.height / 5,
                       width: MediaQuery.of(context).size.width,
-                      child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (ctx, index) {
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(7),
-                              child: SizedBox(
-                                height: 150,
-                                width: 100,
-                                child: Image.network(
-                                  "https://www.filmibeat.com/ph-big/2021/08/pushpa_163012974311.jpg",
-                                  fit: BoxFit.cover,
+                      child: FutureBuilder(
+                          future: HttpService().upComing(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<Upcoming?> snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, index) {
+                                  final data = snapshot.data!.results![index];
+                                  return ClipRRect(
+                                    borderRadius: BorderRadius.circular(7),
+                                    child: GestureDetector(
+                                       onTap: (){
+                                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>Upcoming_deails(indd: index,)));
+                                      },
+                                      child: SizedBox(
+                                          height: 70,
+                                          width: 100,
+                                          child: Image.network("https://www.themoviedb.org/t/p/original/${data.posterPath}",
+                                            fit: BoxFit.cover,
+                                          )),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (ctx, index) =>
+                                    const SizedBox(
+                                  width: 10,
                                 ),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (ctx, index) => const SizedBox(
-                                width: 10,
-                              ),
-                          itemCount: 5),
-                    )
+                                itemCount: snapshot.data!.results!.length,
+                              );
+                            } else {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                          }),
+                    ),
                   ],
                 ),
               ),
