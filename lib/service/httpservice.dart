@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:netflix_clone/constant_datas/constant.dart';
 import 'package:netflix_clone/model/popularmovies.dart';
@@ -36,6 +38,9 @@ class HttpService {
       response = await _dio.get(baseUrl);
       user = Users.fromJson(response.data);
       print(user!.results!.length);
+      print(response.data);
+    } on SocketException {
+      print('Network error');
     } on DioError catch (e) {
       print(e.message);
       // throw Exception(e.message);
@@ -52,6 +57,9 @@ class HttpService {
       response = await _dio.get(popular);
       pop = PopularMovie.fromJson(response.data);
       print(pop!.results!.length);
+      print(pop!.results);
+    } on SocketException {
+      print('Network error');
     } on DioError catch (e) {
       print(e.message);
       // throw Exception(e.message);
@@ -68,6 +76,8 @@ class HttpService {
       response = await _dio.get(upcoming);
       up = Upcoming.fromJson(response.data);
       print(up!.results!.length);
+    } on SocketException {
+      print('Network error');
     } on DioError catch (e) {
       print(e.message);
       // throw Exception(e.message);
@@ -77,20 +87,24 @@ class HttpService {
     return up;
   }
 
-  Future<Welcome?> topRated() async {
+  Future<PopularMovie?> topRated({required String txt}) async {
     Response response;
 
     try {
-      response = await _dio.get(toplink);
+      response = await _dio.get(
+          "https://api.themoviedb.org/3/search/movie?api_key=3e801f599186241c08d9adfa803d6fd0&language=en-US&query=${txt}&page=1&include_adult=false");
       toprated = Welcome.fromJson(response.data);
-      print(toprated!.results!.length);
+      print(pop!.results!.length);
+    } on SocketException {
+      print('Network error');
     } on DioError catch (e) {
       print(e.message);
       // throw Exception(e.message);
-      return toprated;
+      return pop;
     }
-    response = await _dio.get(toplink);
-    return toprated;
+    response = await _dio.get(
+        "https://api.themoviedb.org/3/search/movie?api_key=3e801f599186241c08d9adfa803d6fd0&language=en-US&query=${txt}&page=1&include_adult=false");
+    return pop;
   }
 
   initializeInterceptors() {

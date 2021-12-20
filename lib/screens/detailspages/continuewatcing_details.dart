@@ -94,7 +94,7 @@ class _ContinueWatchingState extends State<ContinueWatching> {
                                 style: TextStyle(color: HexColor("#579165")),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: '   ${data.releaseDate!.year}',
+                                      text: '   ${data.releaseDate}',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),

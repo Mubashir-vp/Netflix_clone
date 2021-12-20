@@ -36,7 +36,7 @@ class _Upcoming_deailsState extends State<Upcoming_deails> {
                           height: 500,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            "https://www.themoviedb.org/t/p/original${data.backdropPath}",
+                            "https://www.themoviedb.org/t/p/original${data.backdropPath ?? data.posterPath}",
                             fit: BoxFit.fill,
                           )),
                       // centerTitle: true,
@@ -94,7 +94,7 @@ class _Upcoming_deailsState extends State<Upcoming_deails> {
                                 style: TextStyle(color: HexColor("#579165")),
                                 children: <TextSpan>[
                                   TextSpan(
-                                      text: '   ${data.releaseDate!.year}',
+                                      text: '   ${data.releaseDate}',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white)),
