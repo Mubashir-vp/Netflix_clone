@@ -1,10 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:netflix_clone/model/popularmovies.dart';
 
-import '../../model/users.dart';
 import '../../service/httpservice.dart';
 
 class ContinueWatching extends StatefulWidget {
@@ -38,7 +36,7 @@ class _ContinueWatchingState extends State<ContinueWatching> {
                           height: 500,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            "https://www.themoviedb.org/t/p/original/${data.backdropPath}",
+                            "https://www.themoviedb.org/t/p/original${data.backdropPath}",
                             fit: BoxFit.fill,
                           )),
                       // centerTitle: true,

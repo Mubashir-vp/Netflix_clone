@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -37,7 +36,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           height: 500,
                           width: MediaQuery.of(context).size.width,
                           child: Image.network(
-                            "https://www.themoviedb.org/t/p/original/${data.backdropPath}",
+                            "https://www.themoviedb.org/t/p/original${data.backdropPath}",
                             fit: BoxFit.fill,
                           )),
                       // centerTitle: true,

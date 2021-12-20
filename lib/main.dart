@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/screens/home.dart';
-import 'package:netflix_clone/screens/navigation_bar.dart';
+import 'package:netflix_clone/screens/home_screens/navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
