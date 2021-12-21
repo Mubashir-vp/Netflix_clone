@@ -23,42 +23,42 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    checkInternet();
+    // checkInternet();
   }
-  bool check=false;
+  // bool check=false;
 
-  List<InternetAddress>? result;
+  // List<InternetAddress>? result;
 
-  checkInternet() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        setState(() {
-                  check = true;
+  // checkInternet() async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       print('connected');
+  //       setState(() {
+  //                 check = true;
 
-        });
-      } else {
-        setState(() {
-                  check = false;
+  //       });
+  //     } else {
+  //       setState(() {
+  //                 check = false;
 
-        });
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-    }
-  }
+  //       });
+  //     }
+  //   } on SocketException catch (_) {
+  //     print('not connected');
+  //   }
+  // }
 
 
   @override
   Widget build(BuildContext context) {
-    checkInternet();
+    // checkInternet();
 
     return SafeArea(
       child: Scaffold(
           backgroundColor: Colors.transparent,
-          body: check==true
-              ? CustomScrollView(
+          body:
+               CustomScrollView(
                   shrinkWrap: true,
                   slivers: [
                     SliverAppBar(
@@ -119,7 +119,8 @@ class _HomePageState extends State<HomePage> {
                               child: Image.network(
                                 "https://pldthome.com/images/default-source/news/the-king-eternal-monarch.png",
                                 fit: BoxFit.fill,
-                              )),
+                              )
+                              ),
                           // centerTitle: true,
                         ),
                         actions: <Widget>[
@@ -393,12 +394,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 )
-              : const Center(
-                  child: Text(
-                    "Check Your Internet Connection",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                )),
+              ),
     );
   }
 }
